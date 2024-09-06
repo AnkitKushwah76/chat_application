@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-md-2">
+    <h5> Hi <%= current_user.username %> </h5>
+
+    <h4> Channels </h4>
+    <%= render partial: "layouts/new_room_form" %>
+    <div>
+      <%= turbo_stream_from "rooms" %>
+      <div id="rooms">
+        <%= render @rooms %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-10 bg-dark text-light">
+    <% if @single_room %>
+
+    <% if flash[:notice].present? %>
+      <div class="alert alert-success">
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
+
+      <h4 class="text-center"> <%= @single_room.name %> </h4>
+
+      <%= form_tag(add_people_room_path(@single_room.id), method: :post) do %>
+        <%= select_tag 'user_id', options_for_select(@all_users.map { |u| [u.username, u.id] }), prompt: 'Select User' %>
+        <%= submit_tag 'Add Peoples', class: 'btn btn-primary' %>
+      <% end %>
+
+      <%= turbo_stream_from @single_room %>
+      <div id="messages">
+        <%= render @messages %>
+      </div>
+
+      <div class="room-details">
+        <p>Total messages: <%= @single_room.messages.count %></p>
+      </div>
+
+      <%= render partial: 'layouts/new_message_form' %>
+    <% else %>
+      <h4 class="text-center"> Select a  Channels  to start chatting </h4>
+    <% end %>
+  </div>
+</div>

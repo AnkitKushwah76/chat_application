@@ -1,0 +1,11 @@
+<div class="form-group msg-form">
+  <%= form_with(model: [@single_room, @message], remote: true, class: "d-flex") do |f| %>
+    <div class="input-group">
+      <%= f.file_field :image, direct_upload: true, class: "form-control-file" %>
+      <%= f.text_field :content, id: 'chat-text', class: "form-control msg-content", autocomplete: 'off', placeholder: 'Type a message...' %>
+      <div class="input-group-append">
+        <%= f.submit "Send", data: { disable_with: false }, class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>
