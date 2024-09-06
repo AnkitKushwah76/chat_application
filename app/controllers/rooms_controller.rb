@@ -32,6 +32,15 @@ class RoomsController < ApplicationController
     redirect_to room_path(room)
   end
 
+  def destroy
+    @room = Room.find(params[:id])
+    if @room.destroy
+      flash[:notice] = "Room has been successfully deleted."
+    else
+      flash[:alert] = "Failed to delete the room."
+    end
+    redirect_to rooms_path
+  end
 
   private
 
